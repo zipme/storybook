@@ -3535,7 +3535,7 @@
   resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-9.1.2.tgz#cc443d08d53440cafd669048a974b05456e95070"
   integrity sha512-FQXFonF8hSGJDqgLaoWHy2mkeJwVdoa3jLoT1YpkJWxsFMG4U0T6JYG4VrtuymDgo9XwWBBJqIiNpdTgHhofSQ==
 
-"@ngtools/webpack@9.1.7":
+"@ngtools/webpack@9.1.7", "@ngtools/webpack@^9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-9.1.7.tgz#4322757b029e1175a3361183c06b31d0576538d8"
   integrity sha512-A7VB2I42Kn+7jl0tDKzGNLAoZLWSqkKo9Hg1bmKpvAAIz+DSbq3uV+JWgGgTprM3tn0lfkVgmqk4H17HKwAOcg==

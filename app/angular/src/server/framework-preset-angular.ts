@@ -1,3 +1,4 @@
+import { AngularCompilerPlugin } from '@ngtools/webpack';
 import path from 'path';
 import { ContextReplacementPlugin, Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
@@ -16,37 +17,41 @@ export function webpack(
       rules: [
         ...config.module.rules,
         {
-          test: /\.tsx?$/,
-          use: [
-            {
-              loader: 'ts-loader',
-              options: tsLoaderOptions,
-            },
-            { loader: path.resolve(__dirname, 'ngx-template-loader') },
-          ],
+          test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+          loader: '@ngtools/webpack',
         },
-        {
-          test: /[/\\]@angular[/\\]core[/\\].+\.js$/,
-          parser: { system: true },
-        },
-        {
-          test: /\.html$/,
-          loader: 'raw-loader',
-          exclude: /\.async\.html$/,
-        },
-        {
-          test: /\.s(c|a)ss$/,
-          use: [
-            { loader: 'raw-loader' },
-            {
-              loader: require.resolve('postcss-loader'),
-              options: {
-                plugins: [autoprefixer()],
-              },
-            },
-            { loader: 'sass-loader' },
-          ],
-        },
+        //   {
+        //     test: /\.tsx?$/,
+        //     use: [
+        //       {
+        //         loader: 'ts-loader',
+        //         options: tsLoaderOptions
+        //       },
+        //       { loader: path.resolve(__dirname, 'ngx-template-loader') }
+        //     ]
+        //   },
+        //   {
+        //     test: /[/\\]@angular[/\\]core[/\\].+\.js$/,
+        //     parser: { system: true }
+        //   },
+        //   {
+        //     test: /\.html$/,
+        //     loader: 'raw-loader',
+        //     exclude: /\.async\.html$/
+        //   },
+        //   {
+        //     test: /\.s(c|a)ss$/,
+        //     use: [
+        //       { loader: 'raw-loader' },
+        //       {
+        //         loader: require.resolve('postcss-loader'),
+        //         options: {
+        //           plugins: [autoprefixer()]
+        //         }
+        //       },
+        //       { loader: 'sass-loader' }
+        //     ]
+        //   }
       ],
     },
     resolve: {
@@ -54,12 +59,30 @@ export function webpack(
     },
     plugins: [
       ...config.plugins,
+      new AngularCompilerPlugin({
+        tsConfigPath: tsLoaderOptions.configFile,
+        sourceMap: true,
+        skipCodeGeneration: true,
+        directTemplateLoading: true,
+        emitClassMetadata: true,
+        // tsConfigPath: 'path/to/tsconfig.json',
+        // entryModule: 'path/to/app.module#AppModule',
+        // sourceMap: true,
+        // i18nInFile: 'path/to/translations.en.xlf',
+        // i18nInFormat: 'xlf',
+        // i18nOutFile: 'path/to/translations.xlf',
+        // i18nOutFormat: 'xlf',
+        // locale: 'en',
+        // hostReplacementPaths: {
+        //   'path/to/config.development.ts': 'path/to/config.production.ts'
+        // }
+      }),
       // See https://github.com/angular/angular/issues/11580#issuecomment-401127742
-      new ContextReplacementPlugin(
-        /@angular(\\|\/)core(\\|\/)(fesm5|bundles)/,
-        path.resolve(__dirname, '..')
-      ),
-      createForkTsCheckerInstance(tsLoaderOptions),
+      // new ContextReplacementPlugin(
+      //   /@angular(\\|\/)core(\\|\/)(fesm5|bundles)/,
+      //   path.resolve(__dirname, '..')
+      // ),
+      // createForkTsCheckerInstance(tsLoaderOptions),
     ],
   };
 }
