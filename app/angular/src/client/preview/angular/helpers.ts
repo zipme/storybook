@@ -44,7 +44,11 @@ const getModule = (
     bootstrap: [...bootstrap],
   };
 
-  return NgModule(moduleMeta)(moduleClass);
+  @NgModule(moduleMeta)
+  class DynamicModule {}
+
+  // return NgModule(moduleMeta)(moduleClass);
+  return DynamicModule;
 };
 
 const createComponentFromTemplate = (template: string, styles: string[]) => {
