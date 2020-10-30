@@ -1,8 +1,15 @@
 import { ComponentType } from 'react';
-import { Args as DefaultArgs, Annotations, BaseMeta, BaseStory } from '@storybook/addons';
+import {
+  Args as DefaultArgs,
+  Annotations,
+  ArgTypes,
+  Parameters,
+  BaseMeta,
+  BaseStory,
+} from '@storybook/addons';
 import { StoryFnReactReturnType } from './types';
 
-export { Args, ArgTypes, Parameters, StoryContext } from '@storybook/addons';
+export { Args, ArgTypes, Parameters, StoryContext, LegacyStoryFn } from '@storybook/addons';
 
 type ReactComponent = ComponentType<any>;
 type ReactReturnType = StoryFnReactReturnType;
@@ -22,3 +29,16 @@ export type Meta<Args = DefaultArgs> = BaseMeta<ReactComponent> &
  */
 export type Story<Args = DefaultArgs> = BaseStory<Args, ReactReturnType> &
   Annotations<Args, ReactReturnType>;
+
+/**
+ * Object representing the preview.ts module
+ *
+ * Add something descriptive here
+ * @see [Unit testing with Storybook](https://storybook.js.org/docs/react/workflows/unit-testing)
+ */
+export type GlobalConfig = {
+  decorators?: any[]; // TODO: figure out a proper type here
+  parameters?: Parameters;
+  argTypes?: ArgTypes;
+  [key: string]: any;
+};
