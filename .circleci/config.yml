@@ -457,55 +457,77 @@ jobs:
           name: Upload coverage
           command: yarn coverage
 
+  dummy-job:
+    executor:
+      class: small
+      name: sb_node_10_classic
+    steps:
+      - when:
+          condition:
+            and:
+              - not:
+                  equal: [ master, << pipeline.git.branch >> ]
+              - not:
+                  equal: [ next, << pipeline.git.branch >> ]
+          steps:
+            - ensure-pr-is-labeled-with:
+                label: "run all e2e tests"
+      - run:
+          name: Run all e2e tests!
+          command: echo 'Run all e2e tests'
+
 workflows:
-  test:
+#  test:
+#    jobs:
+#      - build
+#      - install-e2e-deps
+#      - install-examples-deps
+#      - lint:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - examples:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - e2e:
+#          requires:
+#            - examples
+#      - smoke-tests:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - packtracker:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - test:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - coverage:
+#          requires:
+#            - test
+#      - chromatic:
+#          requires:
+#            - examples
+#      - publish:
+#          requires:
+#            - install-e2e-deps
+#            - build
+#      # too slow/expensive. disabling for now
+#      # - examples-v2:
+#      #     requires:
+#      #       - publish
+#      - examples-v2-yarn-2:
+#          requires:
+#            - publish
+#      - examples-v2-cra-bench:
+#          requires:
+#            - publish
+#  deploy:
+#    jobs:
+#      - frontpage
+  dummy-workflow:
     jobs:
-      - build
-      - install-e2e-deps
-      - install-examples-deps
-      - lint:
-          requires:
-            - install-examples-deps
-            - build
-      - examples:
-          requires:
-            - install-examples-deps
-            - build
-      - e2e:
-          requires:
-            - examples
-      - smoke-tests:
-          requires:
-            - install-examples-deps
-            - build
-      - packtracker:
-          requires:
-            - install-examples-deps
-            - build
-      - test:
-          requires:
-            - install-examples-deps
-            - build
-      - coverage:
-          requires:
-            - test
-      - chromatic:
-          requires:
-            - examples
-      - publish:
-          requires:
-            - install-e2e-deps
-            - build
-      # too slow/expensive. disabling for now
-      # - examples-v2:
-      #     requires:
-      #       - publish
-      - examples-v2-yarn-2:
-          requires:
-            - publish
-      - examples-v2-cra-bench:
-          requires:
-            - publish
-  deploy:
-    jobs:
-      - frontpage
+      - dummy-job
