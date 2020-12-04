@@ -11,7 +11,6 @@ import {
   useTheme,
 } from '@storybook/theming';
 import { withCssResources } from '@storybook/addon-cssresources';
-import { DocsPage } from '@storybook/addon-docs/blocks';
 
 import addHeadWarning from './head-warning';
 
@@ -152,10 +151,6 @@ export const parameters = {
   options: {
     storySort: (a, b) =>
       a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
-  },
-  docs: {
-    theme: themes.light,
-    page: () => <DocsPage subtitleSlot={({ kind }) => `Subtitle: ${kind}`} />,
   },
 };
 
