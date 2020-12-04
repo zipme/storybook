@@ -133,7 +133,7 @@ export default async ({
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
       modules: ['node_modules'].concat((raw.NODE_PATH as string[]) || []),
-      mainFields: isProd ? undefined : ['browser', 'main'],
+      mainFields: ['module', 'browser', 'main'],
       alias: {
         ...themingPaths,
         ...uiPaths,
