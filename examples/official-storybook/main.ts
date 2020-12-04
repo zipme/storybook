@@ -6,7 +6,7 @@ module.exports = {
     '../../lib/ui/src/**/*.stories.@(js|tsx|mdx)',
     '../../lib/components/src/**/*.stories.@(js|tsx|mdx)',
     './stories/**/*.stories.@(js|ts|tsx|mdx)',
-    './../../addons/docs/**/*.stories.tsx',
+    './../../addons/docs/src/**/*.stories.tsx',
   ],
   reactOptions: {
     fastRefresh: true,
