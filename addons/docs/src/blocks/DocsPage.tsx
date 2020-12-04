@@ -17,3 +17,5 @@ export const DocsPage: FC = () => (
     <Stories />
   </>
 );
+
+export default DocsPage;

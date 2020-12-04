@@ -37,3 +37,5 @@ export const NoDocs = () => (
     </div>
   </div>
 );
+
+export default NoDocs;

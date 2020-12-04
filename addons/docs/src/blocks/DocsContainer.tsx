@@ -91,3 +91,5 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
     </DocsContext.Provider>
   );
 };
+
+export default DocsContainer;

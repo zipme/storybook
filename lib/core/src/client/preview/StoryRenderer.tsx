@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { document } from 'global';
 import AnsiToHtml from 'ansi-to-html';
@@ -9,8 +9,9 @@ import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { StoryStore } from '@storybook/client-api';
 
-import { NoDocs } from './NoDocs';
 import { RenderStoryFunction, RenderContextWithoutStoryContext } from './types';
+
+const NoDocs = React.lazy(() => import('./NoDocs'));
 
 // We have "changed" story if this changes
 interface RenderMetadata {
@@ -36,6 +37,8 @@ const classes = {
 const ansiConverter = new AnsiToHtml({
   escapeXML: true,
 });
+
+const Children = ({ children }: { children: Element }) => <>{children}</>;
 
 /**
  * StoryRenderer is responsible for rendering the correct story to the screen
@@ -297,23 +300,23 @@ export class StoryRenderer {
     storyStore: StoryStore;
   }) {
     const { kind, parameters, id } = context;
-    if (id === '*' || !parameters) {
-      return;
-    }
+    if (id === '*' || !parameters) return;
 
-    const docs = parameters.docs || {};
+    const { docs = {} } = parameters;
     if (docs.page && !docs.container) {
       throw new Error('No `docs.container` set, did you run `addon-docs/preset`?');
     }
 
-    const DocsContainer =
-      docs.container || (({ children }: { children: Element }) => <>{children}</>);
-    const Page = docs.page || NoDocs;
+    const DocsContainer = docs.container || Children;
+    const DocsPage = docs.page || NoDocs;
+
     // Docs context includes the storyStore. Probably it would be better if it didn't but that can be fixed in a later refactor
     ReactDOM.render(
-      <DocsContainer context={{ storyStore, ...context }}>
-        <Page />
-      </DocsContainer>,
+      <Suspense fallback={<div />}>
+        <DocsContainer context={{ storyStore, ...context }}>
+          <DocsPage />
+        </DocsContainer>
+      </Suspense>,
       document.getElementById('docs-root'),
       () => this.channel.emit(Events.DOCS_RENDERED, kind)
     );
