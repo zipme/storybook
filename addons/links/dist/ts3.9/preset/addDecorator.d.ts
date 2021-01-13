@@ -1,1 +1,1 @@
-export declare const decorators: any[];
+export declare const decorators: ((...args: any) => any)[];
