@@ -1,6 +1,2 @@
-declare const _default: {
-    packageJson: any;
-    framework: string;
-    frameworkPresets: string[];
-};
+declare const _default;
 export default _default;

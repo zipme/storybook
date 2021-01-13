@@ -1,7 +1,8 @@
-var packageJson = require('../../package.json');
-
+import { sync } from 'read-pkg-up';
 export default {
-  packageJson: packageJson,
+  packageJson: sync({
+    cwd: __dirname
+  }).packageJson,
   framework: 'vue3',
   frameworkPresets: [require.resolve('./framework-preset-vue.js')]
 };

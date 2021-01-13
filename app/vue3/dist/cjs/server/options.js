@@ -5,10 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var packageJson = require('../../package.json');
+var _readPkgUp = require("read-pkg-up");
 
 var _default = {
-  packageJson: packageJson,
+  packageJson: (0, _readPkgUp.sync)({
+    cwd: __dirname
+  }).packageJson,
   framework: 'vue3',
   frameworkPresets: [require.resolve('./framework-preset-vue.js')]
 };
